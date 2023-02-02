@@ -1,0 +1,85 @@
+sudo apt-get update
+sudo apt install openjdk-8-jdk
+java -version
+
+"Use the following commands to create a directory in /opt"
+
+cd /opt/ 
+sudo mkdir Innovecture
+sudo chown -R ubuntu:ubuntu Innovecture
+cd Innovecture/
+wget https://downloads.apache.org/tomcat/tomcat-9/v9.0.54/bin/apache-tomcat-9.0.54.tar.gz
+ls -l 
+tar -zxvf apache-tomcat-9.0.54.tar.gz 
+cd apache-tomcat-9.0.54
+
+<!-- In server.xml under conf directory change the port on which Apache Tomcat runs,
+i.e. change port 8080 to 8090. -->
+
+ifconfig
+vim conf/server.xml
+
+"Also, change the localhost configuration in server.xml file with the private IP of the server so that your server can be accessed from the Internet." 
+"Save and exit from" 
+
+conf/server.xml
+
+bin/startup.sh
+netstat -tulpn 
+
+"Clone Github Repo"
+
+cd /opt/Innovecture/
+git clone https://github.com/shivalkarrahul/Innovecture.git 
+cd Innovecture
+
+sudo apt install maven "Install maven"
+
+Build the code
+
+cd /opt/Innovecture/Innovecture
+mvn package
+
+Observe the Build generated
+
+cd /opt/Innovecture/Innovecture
+ls -l target/
+
+Deploy the war file in tomcat
+Stop Apache Tomcat
+
+cd /opt/Innovecture/apache-tomcat-9.0.54/
+bin/shutdown.sh
+netstat -tulpn
+cp /opt/Innovecture/Innovecture/target/web_ex.war /opt/Innovecture/apache-tomcat-9.0.54/webapps/
+ls webapps/
+
+Start Apache Tomcat
+
+cd /opt/Innovecture/apache-tomcat-9.0.54
+bin/startup.sh 
+netstat -tulpn 
+ps -ef | grep apache
+
+Check Logs of apache tomcat
+
+pwd
+cd /opt/Innovecture/apache-tomcat-9.0.54/
+cat logs/catalina.out
+
+Check live logs
+
+tail -100f logs/catalina.out
+
+
+<!--   Access the sample application deployed in apache tomcat by the name of war file (without.war)
+http://35.180.189.19:8090/web_ex/
+Here, you IP will be different. --!>
+
+Stop Apache Tomcat
+
+
+
+
+
+
